@@ -1,7 +1,6 @@
-// import 'package:flutter/cupertino.dart';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:newsapp/Models/article_model.dart';
+import 'package:newsapp/Helps//news.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -11,15 +10,34 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  List<ArticleModel> articles = [];
+  bool _loading = true;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getNews();
+  }
+
+  getNews() async {
+    News news = News();
+    List<ArticleModel> fetchedArticles = await news.getNews();
+    setState(() {
+      articles = fetchedArticles;
+      _loading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
+        title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: const <Widget>[
             Text(
-                'News',
+              'News',
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Text(
@@ -31,8 +49,18 @@ class _HomeState extends State<Home> {
         centerTitle: true,
         elevation: 0.0,
       ),
-      body: const Center(
-        child: Text('Home'),
+      body: _loading
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+        itemCount: articles.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(articles[index].title),
+            subtitle: Text(articles[index].description),
+            // Add more details or functionalities here
+            // e.g., onTap to navigate to a detailed view of the article
+          );
+        },
       ),
     );
   }
