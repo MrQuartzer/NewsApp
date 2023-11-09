@@ -24,9 +24,14 @@ abstract class NewsService extends ChopperService {
     return _$NewsService(client);
   }
 
-  @Get(path: '/top-headlines')
+  // @Get(path: '/top-headlines')
+  // Future<Response> getTopHeadlines({
+  //   @Query('sources') String sources = 'bbc-news'
+  // });
+
+  @Get(path: '/everything')
   Future<Response> getTopHeadlines({
-    @Query('sources') String sources = 'bbc-news'
+    @Query('domains') String sources = 'techcrunch.com,thenextweb.com'
   });
 }
 

@@ -17,9 +17,10 @@ final class _$NewsService extends NewsService {
   final definitionType = NewsService;
 
   @override
-  Future<Response<dynamic>> getTopHeadlines({String sources = 'bbc-news'}) {
-    final Uri $url = Uri.parse('/v2/top-headlines');
-    final Map<String, dynamic> $params = <String, dynamic>{'sources': sources};
+  Future<Response<dynamic>> getTopHeadlines(
+      {String sources = 'techcrunch.com,thenextweb.com'}) {
+    final Uri $url = Uri.parse('/v2/everything');
+    final Map<String, dynamic> $params = <String, dynamic>{'domains': sources};
     final Request $request = Request(
       'GET',
       $url,
