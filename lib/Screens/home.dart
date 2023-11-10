@@ -147,20 +147,26 @@ class Slide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider.builder(
-      itemCount: articles.length,
-      options: CarouselOptions(
-        height: 300.0,
-        enlargeCenterPage: true,
-        autoPlay: true,
-        autoPlayInterval: Duration(seconds: 3),
-        autoPlayAnimationDuration: Duration(milliseconds: 800),
-        pauseAutoPlayOnTouch: true,
-        aspectRatio: 2.0,
+    double slideHeight = MediaQuery.of(context).size.height * 0.6;
+
+    return Container(
+      height: slideHeight,
+      child: CarouselSlider.builder(
+        itemCount: articles.length,
+        options: CarouselOptions(
+          height: 500.0,
+          enlargeCenterPage: true,
+          autoPlay: true,
+          autoPlayInterval: Duration(seconds: 3),
+          autoPlayAnimationDuration: Duration(milliseconds: 800),
+          pauseAutoPlayOnTouch: true,
+          aspectRatio: 2.0,
+          viewportFraction: 0.9,
+        ),
+        itemBuilder: (BuildContext context, int index, int realIndex) {
+          return NewsCard(article: articles[index]);
+        },
       ),
-      itemBuilder: (BuildContext context, int index, int realIndex) {
-        return NewsCard(article: articles[index]);
-      },
     );
   }
 }
@@ -186,42 +192,49 @@ class NewsCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.0),
         ),
         elevation: 5.0,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 200.0,
-              width: double.infinity,
-              child: Image.network(
-                article.urlToImage ?? '',
-                fit: BoxFit.cover,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    article.title ?? '',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                    ),
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15.0),
+                  topRight: Radius.circular(15.0),
+                ),
+                child: Container(
+                  height: 200.0,
+                  width: double.infinity,
+                  child: Image.network(
+                    article.urlToImage ?? '',
+                    fit: BoxFit.cover,
                   ),
-                  SizedBox(height: 8.0),
-                  Text(
-                    article.description ?? '',
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.black54,
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      article.title ?? '',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+                    Text(
+                      article.description ?? '',
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
