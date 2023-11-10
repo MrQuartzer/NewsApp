@@ -149,23 +149,25 @@ class Slide extends StatelessWidget {
   Widget build(BuildContext context) {
     double slideHeight = MediaQuery.of(context).size.height * 0.6;
 
-    return Container(
-      height: slideHeight,
-      child: CarouselSlider.builder(
-        itemCount: articles.length,
-        options: CarouselOptions(
-          height: 500.0,
-          enlargeCenterPage: true,
-          autoPlay: true,
-          autoPlayInterval: Duration(seconds: 3),
-          autoPlayAnimationDuration: Duration(milliseconds: 800),
-          pauseAutoPlayOnTouch: true,
-          aspectRatio: 2.0,
-          viewportFraction: 0.9,
+    return Center(
+      child: Container(
+        height: slideHeight,
+        child: CarouselSlider.builder(
+          itemCount: articles.length,
+          options: CarouselOptions(
+            height: 500.0,
+            enlargeCenterPage: true,
+            autoPlay: true,
+            autoPlayInterval: Duration(seconds: 3),
+            autoPlayAnimationDuration: Duration(milliseconds: 800),
+            pauseAutoPlayOnTouch: true,
+            aspectRatio: 2.0,
+            viewportFraction: 0.9,
+          ),
+          itemBuilder: (BuildContext context, int index, int realIndex) {
+            return NewsCard(article: articles[index]);
+          },
         ),
-        itemBuilder: (BuildContext context, int index, int realIndex) {
-          return NewsCard(article: articles[index]);
-        },
       ),
     );
   }
