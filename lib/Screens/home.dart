@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:newsapp/Models/article_model.dart';
 import 'package:newsapp/Helps/news.dart';
 import 'package:newsapp/Screens/article_view.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -52,33 +53,39 @@ class _HomeState extends State<Home> {
       ),
       body: _loading
           ? Center(
-              child: Container(
-              child: CircularProgressIndicator(),
-            ))
-          : SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(top: 16),
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: ClampingScrollPhysics(),
-                          itemCount: articles.length,
-                          itemBuilder: (context, index) {
-                            return BlogTile(
-                              imageUrl: articles[index].urlToImage,
-                              title: articles[index].title,
-                              description: articles[index].description,
-                              url: articles[index].url,
-                            );
-                          }),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            child: CircularProgressIndicator(),
+          )
+          : Slide(articles: articles),
+      // ScrollView News
+      // body: _loading
+      //     ? Center(
+      //         child: Container(
+      //         child: CircularProgressIndicator(),
+      //       ))
+      //     : SingleChildScrollView(
+      //         child: Container(
+      //           padding: EdgeInsets.symmetric(horizontal: 16),
+      //           child: Column(
+      //             children: <Widget>[
+      //               Container(
+      //                 padding: EdgeInsets.only(top: 16),
+      //                 child: ListView.builder(
+      //                     shrinkWrap: true,
+      //                     physics: ClampingScrollPhysics(),
+      //                     itemCount: articles.length,
+      //                     itemBuilder: (context, index) {
+      //                       return BlogTile(
+      //                         imageUrl: articles[index].urlToImage,
+      //                         title: articles[index].title,
+      //                         description: articles[index].description,
+      //                         url: articles[index].url,
+      //                       );
+      //                     }),
+      //               ),
+      //             ],
+      //           ),
+      //         ),
+      //       ),
     );
   }
 }
@@ -126,6 +133,93 @@ class BlogTile extends StatelessWidget {
             Text(
               description,
               style: TextStyle(color: Colors.black26),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Slide extends StatelessWidget {
+  final List<ArticleModel> articles;
+  Slide({required this.articles});
+
+  @override
+  Widget build(BuildContext context) {
+    return CarouselSlider.builder(
+      itemCount: articles.length,
+      options: CarouselOptions(
+        height: 300.0,
+        enlargeCenterPage: true,
+        autoPlay: true,
+        autoPlayInterval: Duration(seconds: 3),
+        autoPlayAnimationDuration: Duration(milliseconds: 800),
+        pauseAutoPlayOnTouch: true,
+        aspectRatio: 2.0,
+      ),
+      itemBuilder: (BuildContext context, int index, int realIndex) {
+        return NewsCard(article: articles[index]);
+      },
+    );
+  }
+}
+
+class NewsCard extends StatelessWidget {
+  final ArticleModel article;
+  NewsCard({required this.article});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Article_View(blogUrl: article.url),
+          ),
+        );
+      },
+      child: Card(
+        margin: EdgeInsets.symmetric(horizontal: 10.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        elevation: 5.0,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 200.0,
+              width: double.infinity,
+              child: Image.network(
+                article.urlToImage ?? '',
+                fit: BoxFit.cover,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    article.title ?? '',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    article.description ?? '',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

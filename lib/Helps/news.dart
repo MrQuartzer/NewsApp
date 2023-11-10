@@ -23,16 +23,17 @@ class News {
   }
 }
 
-void main() async {
-  News newsInstance = News();
-  List<ArticleModel> news = await newsInstance.getNews();
-  for (var article in news) {
-    print('Title: ${article.title}');
-    print('Author: ${article.author}');
-    print('Description: ${article.description}');
-    print('URL: ${article.url}');
-    print('URL to Image: ${article.urlToImage}');
-    print('Content: ${article.content}');
-    print('---------------------');
-  }
-}
+// check news from api
+// void main() async {
+//   News newsInstance = News();
+//   List<ArticleModel> news = await newsInstance.getNews();
+//   for (var article in news) {
+//     print('Title: ${article.title}');
+//     print('Author: ${article.author}');
+//     print('Description: ${article.description}');
+//     print('URL: ${article.url}');
+//     print('URL to Image: ${article.urlToImage}');
+//     print('Content: ${article.content}');
+//     print('---------------------');
+//   }
+// }
