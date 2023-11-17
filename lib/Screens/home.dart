@@ -39,18 +39,21 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const <Widget>[
             Text(
-              'News',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              'Tech',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
             ),
             Text(
-              'App',
-              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+              'Crunch',
+              style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold, fontSize: 40),
             )
           ],
         ),
         centerTitle: true,
         elevation: 0.0,
+        toolbarHeight: 150.0,
+        backgroundColor: Colors.lightBlueAccent[100],
       ),
+      // Slider
       body: _loading
           ? Center(
             child: CircularProgressIndicator(),
